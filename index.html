@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ONE Minute Bus Tickets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    /* === PRELOADER === */
+    #preloader {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #7b3fbf;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }.preloader-icon {
+  animation: spin 2s linear infinite, pulse 2s ease-in-out infinite alternate;
+}
+
+.preloader-text {
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.1); opacity: 0.9; }
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #f1f1f1, #ffffff);
+  color: #333;
+}
+
+.header {
+  background-color: #7b3fbf;
+  color: white;
+  padding: 20px;
+  border-bottom: 5px solid #d1a3ff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.superman-s {
+  width: 44px;
+  height: 44px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+main {
+  padding: 20px;
+}
+
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.legend {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  border-radius: 5px;
+  border: 1px solid #999;
+  vertical-align: middle;
+}
+
+.legend.available { background: #ffffff; }
+.legend.selected { background: #7b3fbf; }
+.legend.booked { background: #ddd; border: 1px dashed #aaa; }
+
+.modern-seats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 320px;
+  margin: 0 auto 30px;
+}
+
+.seat {
+  background: linear-gradient(to top left, #fefefe, #f4ecff);
+  border: 2px solid #d1a3ff;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #5a2d82;
+  text-align: center;
+  padding: 10px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.08);
+  user-select: none;
+}
+
+.seat:hover {
+  background-color: #e4d3ff;
+}
+
+.seat.selected {
+  background-color: #7b3fbf;
+  color: white;
+  border: 2px solid #5a2d82;
+}
+
+.seat.booked {
+  background-color: #ddd;
+  color: red;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  border: 2px dashed #aaa;
+}
+
+.booking-form {
+  background-color: #f3e8ff;
+  border: 1px solid #d1a3ff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(123, 63, 191, 0.3);
+}
+
+.booking-form h2 {
+  text-align: center;
+  color: #7b3fbf;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #5d3a80;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #7b3fbf;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #5a2d82;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #eeeeee;
+  border-top: 1px solid #ccc;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.creator {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+  </style>
+</head>
+<body>
+  <div id="preloader">
+    <svg class="superman-s preloader-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Loading Icon">
+      <path fill="#f3e8ff" stroke="#ffffff" stroke-width="3" d="M32 2 L12 18 L4 42 L32 62 L60 42 L52 18 Z"/>
+      <text x="32" y="44" text-anchor="middle" font-family="Arial Black" font-size="36" fill="#7b3fbf" stroke="#fff" stroke-width="1" dy=".3em">S</text>
+    </svg>
+    <div class="preloader-text">Loading ONE Minute Bus Tickets...</div>
+  </div>  <header class="header">
+    <svg class="superman-s" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Superman S">
+      <path fill="#7b3fbf" stroke="#5a2d82" stroke-width="3" d="M32 2 L12 18 L4 42 L32 62 L60 42 L52 18 Z"/>
+      <text x="32" y="44" text-anchor="middle" font-family="Arial Black" font-size="36" fill="#f3e8ff" stroke="#5a2d82" stroke-width="1" dy=".3em">S</text>
+    </svg>
+    ONE Minute Bus Tickets
+  </header>  <main>
+    <section class="seat-legend">
+      <div><span class="legend available"></span> Available</div>
+      <div><span class="legend selected"></span> Selected</div>
+      <div><span class="legend booked"></span> Booked</div>
+    </section><section class="modern-seats" id="seatLayout"></section>
+
+<section class="booking-form">
+  <h2>ခုံ ရွေးရန် / Seat Booking Form</h2>
+  <form id="bookingForm">
+    <label>ခုံနံပါတ် / Seat No: <input type="text" id="seatNo" readonly /></label>
+    <label>နာမည် / Name: <input type="text" id="name" required /></label>
+    <label>မှတ်ပုံတင် / NRC: <input type="text" id="nrc" required /></label>
+    <label>ဖုန်းနံပါတ် / Phone: <input type="text" id="phone" required /></label>
+    <label>လိပ်စာ / Address: <input type="text" id="address" required /></label>
+    <button type="submit">အတည်ပြု / Book Seat</button>
+  </form>
+</section>
+
+  </main>  <footer>
+    <a href="admin.html">🛠 Admin Dashboard သို့ ဝင်ရန်</a>
+    <div class="creator">Created by ကျော်ဇေယျ</div>
+  </footer>  <script>
+    window.addEventListener("load", () => {
+      document.getElementById("preloader").style.display = "none";
+    });
+
+    function loadBookedSeats() {
+      for (let i = 1; i <= 49; i++) {
+        const data = localStorage.getItem(`seat_${i}`);
+        if (data) {
+          const seatEl = document.querySelector(`#seatLayout .seat[data-seat="${i}"]`);
+          if (seatEl) seatEl.classList.add("booked");
+        }
+      }
+    }
+
+    const seatLayout = document.getElementById("seatLayout");
+    for (let i = 1; i <= 49; i++) {
+      const seat = document.createElement("div");
+      seat.className = "seat";
+      seat.textContent = i;
+      seat.setAttribute("data-seat", i);
+      seat.addEventListener("click", () => {
+        if (!seat.classList.contains("booked")) {
+          document.querySelectorAll(".seat.selected").forEach(s => s.classList.remove("selected"));
+          seat.classList.add("selected");
+          document.getElementById("seatNo").value = i;
+        }
+      });
+      seatLayout.appendChild(seat);
+    }
+
+    loadBookedSeats();
+
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const seatNo = document.getElementById("seatNo").value;
+      if (!seatNo) {
+        alert("Please select a seat first.");
+        return;
+      }
+
+      const name = document.getElementById("name").value.trim();
+      const nrc = document.getElementById("nrc").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address").value.trim();
+
+      if (!name || !nrc || !phone || !address) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      const bookingData = { seatNo, name, nrc, phone, address };
+      localStorage.setItem(`seat_${seatNo}`, JSON.stringify(bookingData));
+
+      const seatEl = document.querySelector(`#seatLayout .seat[data-seat="${seatNo}"]`);
+      seatEl.classList.remove("selected");
+      seatEl.classList.add("booked");
+
+      alert(`Seat ${seatNo} has been booked successfully!`);
+
+      this.reset();
+      document.getElementById("seatNo").value = "";
+    });
+  </script></body>
+</html>
